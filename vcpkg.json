@@ -1,0 +1,11 @@
+{
+  "name": "doklevise",
+  "version-string": "1.0.0",
+  "builtin-baseline": "d163f9d5f55bac7743abf89c86b7ab3ce26e3175",
+  "dependencies": [
+    {
+      "name": "wxwidgets",
+      "version>=": "3.2.2.1#2"
+    }
+  ]
+}
