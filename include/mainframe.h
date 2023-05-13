@@ -9,5 +9,6 @@ public:
     explicit MainFrame(const wxString& title);
     void OnLoadButtonClicked(wxCommandEvent& evt);
     void OnSaveButtonClicked(wxCommandEvent& evt);
+    void OnAchievementButtonClicked(wxCommandEvent& evt);
 };
 #endif

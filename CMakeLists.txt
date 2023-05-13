@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.26)
-project(doklevise LANGUAGES CXX)
+project(RoR2_Editor LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 
 if(APPLE)
-    message(x64-osx used)
+    message("x64-osx used")
     set(WX-TYPE x64-osx)
 elseif(UNIX)
     message("x64-linux used")
@@ -23,7 +23,7 @@ set(NanoSVG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/${WX_TYPE}/share/Nan
 find_package(wxWidgets CONFIG REQUIRED core base xml)
 
 if(wxWidgets_FOUND)
-    add_executable(main src/main.cpp src/app.cpp src/mainframe.cpp)
+    add_executable(main src/main.cpp src/app.cpp src/mainframe.cpp src/achievementframe.cpp)
     target_link_libraries(main PRIVATE wx::core wx::base wx::xml)
     target_include_directories(main PRIVATE ${wxWidgets_INCLUDE_DIRECTORIES})
     target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)

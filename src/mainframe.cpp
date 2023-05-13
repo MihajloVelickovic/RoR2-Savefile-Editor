@@ -1,8 +1,10 @@
-#include "mainframe.h"
 #include <wx/filedlg.h>
 #include <wx/xml/xml.h>
 #include <wx/sizer.h>
 #include <wx/imagjpeg.h>
+#include "achievementframe.h"
+#include "mainframe.h"
+
 MainFrame::MainFrame(const wxString& title)
     :wxFrame(nullptr,
              wxID_ANY,
@@ -23,13 +25,12 @@ MainFrame::MainFrame(const wxString& title)
                                      "Save",
                                      wxPoint(207, 135),
                                      wxSize(80, 20));
-        //WIP
+
         auto achievementsEditor = new wxButton(this,
                                                wxID_ANY,
                                                "Achievements",
                                                wxPoint(157, 215),
                                                wxSize(80, 20));
-        achievementsEditor->Disable();
 
         m_TextBox = new wxTextCtrl(this,
                                    wxID_ANY,
@@ -40,6 +41,7 @@ MainFrame::MainFrame(const wxString& title)
 
         loadFile->Bind(wxEVT_BUTTON, &MainFrame::OnLoadButtonClicked, this);
         saveFile->Bind(wxEVT_BUTTON, &MainFrame::OnSaveButtonClicked, this);
+        achievementsEditor->Bind(wxEVT_BUTTON, &MainFrame::OnAchievementButtonClicked, this);
 }
 
 void MainFrame::OnLoadButtonClicked(wxCommandEvent &evt) {
@@ -140,4 +142,9 @@ void MainFrame::OnSaveButtonClicked(wxCommandEvent &evt){
                                               wxOK_DEFAULT);
         successful->ShowModal();
     }
+}
+
+void MainFrame::OnAchievementButtonClicked(wxCommandEvent &evt) {
+    auto achievementFrame = new AchievementFrame(this, _("Achievements"));
+    achievementFrame->Show();
 }
