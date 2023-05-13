@@ -1,10 +1,10 @@
 #include "app.h"
-#include "frame.h"
+#include "mainframe.h"
 bool App::OnInit(){
     if(!wxApp::OnInit())
         return false;
-    auto frame = new Frame(_("Title"));
-    frame->SetTitle(_("Lista Vozaca"));
+    auto frame = new MainFrame(_("Title"));
+    frame->SetTitle(_("RoR2 Lunar Coin Modifier"));
     frame->Show();
     return true;
 }

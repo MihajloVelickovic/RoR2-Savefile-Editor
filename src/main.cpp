@@ -1,4 +1,4 @@
 #include "app.h"
-#include "frame.h"
+#include "mainframe.h"
 
 wxIMPLEMENT_APP(App);
