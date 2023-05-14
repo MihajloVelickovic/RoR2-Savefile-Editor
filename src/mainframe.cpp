@@ -2,16 +2,17 @@
 #include <wx/xml/xml.h>
 #include <wx/sizer.h>
 #include <wx/imagjpeg.h>
-#include "achievementframe.h"
 #include "mainframe.h"
-
+#include "achievement.h"
+#include "achievementframe.h"
+#include "achievementlist.h"
 MainFrame::MainFrame(const wxString& title)
     :wxFrame(nullptr,
              wxID_ANY,
              title,
              wxDefaultPosition,
              wxSize(400, 400),
-             wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)) {
+             wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)){
 
         this->SetBackgroundColour(wxColor(33,33,33));
 
@@ -25,12 +26,12 @@ MainFrame::MainFrame(const wxString& title)
                                      "Save",
                                      wxPoint(207, 135),
                                      wxSize(80, 20));
-
-        auto achievementsEditor = new wxButton(this,
-                                               wxID_ANY,
-                                               "Achievements",
-                                               wxPoint(157, 215),
-                                               wxSize(80, 20));
+        m_AchievementButton = new wxButton(this,
+                                           wxID_ANY,
+                                           "Achievements",
+                                           wxPoint(157, 215),
+                                           wxSize(80, 20));
+        m_AchievementButton->Disable();
 
         m_TextBox = new wxTextCtrl(this,
                                    wxID_ANY,
@@ -41,7 +42,7 @@ MainFrame::MainFrame(const wxString& title)
 
         loadFile->Bind(wxEVT_BUTTON, &MainFrame::OnLoadButtonClicked, this);
         saveFile->Bind(wxEVT_BUTTON, &MainFrame::OnSaveButtonClicked, this);
-        achievementsEditor->Bind(wxEVT_BUTTON, &MainFrame::OnAchievementButtonClicked, this);
+        m_AchievementButton->Bind(wxEVT_BUTTON, &MainFrame::OnAchievementButtonClicked, this);
 }
 
 void MainFrame::OnLoadButtonClicked(wxCommandEvent &evt) {
@@ -67,6 +68,23 @@ void MainFrame::OnLoadButtonClicked(wxCommandEvent &evt) {
                 m_Value = xmlCoinNode->GetNodeContent();
                 success = true;
             }
+            else if(xmlCoinNode->GetName() == "achievementsList"){
+                m_Value = xmlCoinNode->GetNodeContent();
+                size_t start = 0;
+                bool loop = true;
+                while(m_Value.find(' ',start) != wxNOT_FOUND || loop){
+                    wxString extractedAchievement;
+                    if(m_Value.find(' ',start) != wxNOT_FOUND)
+                        extractedAchievement = m_Value.substr(start,m_Value.find(' ',start)-start);
+                    else {
+                        extractedAchievement = m_Value.substr(start, m_Value.find('<', start) - start);
+                        loop = false;
+                    }
+                    if(Achievement::AchievementExists(extractedAchievement))
+                        m_Achievements.Add(extractedAchievement);
+                    start = m_Value.find(' ', start) + 1;
+                }
+            }
             xmlCoinNode = xmlCoinNode->GetNext();
         }
         if(!success){
@@ -78,6 +96,7 @@ void MainFrame::OnLoadButtonClicked(wxCommandEvent &evt) {
             m_Path = wxEmptyString;
         }
     }
+    m_AchievementButton->Enable();
     m_TextBox->Enable();
     m_TextBox->SetValue(m_Value);
 }
@@ -147,4 +166,8 @@ void MainFrame::OnSaveButtonClicked(wxCommandEvent &evt){
 void MainFrame::OnAchievementButtonClicked(wxCommandEvent &evt) {
     auto achievementFrame = new AchievementFrame(this, _("Achievements"));
     achievementFrame->Show();
+}
+
+wxArrayString MainFrame::GetAchievements() {
+    return m_Achievements;
 }
