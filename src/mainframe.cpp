@@ -81,7 +81,7 @@ void MainFrame::OnLoadButtonClicked(wxCommandEvent &evt) {
                         loop = false;
                     }
                     if(Achievement::AchievementExists(extractedAchievement))
-                        m_Achievements.Add(extractedAchievement);
+                        m_Achievements.push_back(extractedAchievement);
                     start = m_Value.find(' ', start) + 1;
                 }
             }
@@ -168,6 +168,6 @@ void MainFrame::OnAchievementButtonClicked(wxCommandEvent &evt) {
     achievementFrame->Show();
 }
 
-wxArrayString MainFrame::GetAchievements() {
+std::vector<wxString> MainFrame::GetAchievements() {
     return m_Achievements;
 }

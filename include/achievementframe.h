@@ -5,7 +5,6 @@
 class AchievementFrame: public wxFrame {
 public:
     AchievementFrame(MainFrame* parent, const wxString& title);
-    void OnCheckBoxClick(wxCommandEvent& evt);
 };
 
 

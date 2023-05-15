@@ -1,10 +1,11 @@
 #ifndef FRAME_H
 #define FRAME_H
 #include <wx/wx.h>
+#include <vector>
 class MainFrame: public wxFrame{
 private:
     wxString m_Value, m_Path;
-    wxArrayString m_Achievements;
+    std::vector<wxString> m_Achievements;
     wxTextCtrl* m_TextBox;
     wxButton* m_AchievementButton;
 public:
@@ -12,6 +13,6 @@ public:
     void OnLoadButtonClicked(wxCommandEvent& evt);
     void OnSaveButtonClicked(wxCommandEvent& evt);
     void OnAchievementButtonClicked(wxCommandEvent& evt);
-    wxArrayString GetAchievements();
+    std::vector<wxString> GetAchievements();
 };
 #endif

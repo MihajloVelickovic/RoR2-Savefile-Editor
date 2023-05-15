@@ -26,7 +26,7 @@ AchievementFrame::AchievementFrame(MainFrame* parent, const wxString &title)
                                                 achievementList[i].GetName());
 
             bool color = false;
-            for(int j=0;j<parent->GetAchievements().Count();j++)
+            for(int j=0;j<parent->GetAchievements().size();j++)
                 if(parent->GetAchievements()[j] == achievementList[i].GetAchievement()){
                     nameTextArray[i]->SetForegroundColour(wxColor(46,232,71));
                     color = true;
