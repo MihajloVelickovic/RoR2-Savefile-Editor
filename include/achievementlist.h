@@ -1,6 +1,10 @@
 #ifndef ACHIEVEMENT_LIST_H
 #define ACHIEVEMENT_LIST_H
 #include "achievement.h"
+
+#define UNLOCKED wxColor(46,232,71)
+#define LOCKED wxColor(188,50,50)
+
 static Achievement achievementList[] = {
     Achievement(_("Elite Slayer"), _("Defeat an Elite-Type monster."), _("KillEliteMonster"), _("Items.Medkit")),
     Achievement(_("Advancement"),_("Complete a Teleporter event."),_("CompleteTeleporter"),_("Items.BossDamageBonus")),

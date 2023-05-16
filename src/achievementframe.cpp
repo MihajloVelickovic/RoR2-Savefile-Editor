@@ -1,7 +1,8 @@
 #include "achievementframe.h"
 #include "achievementlist.h"
 #include "mainframe.h"
-
+#include "clickabletext.h"
+#include <array>
 AchievementFrame::AchievementFrame(MainFrame* parent, const wxString &title)
     :wxFrame(parent,
              wxID_ANY,
@@ -16,14 +17,19 @@ AchievementFrame::AchievementFrame(MainFrame* parent, const wxString &title)
         auto sizer = new wxBoxSizer(wxVERTICAL);
         panel->SetScrollRate(0, FromDIP(10));
 
-        wxStaticText* nameTextArray[118];
+        ClickableText* nameTextArray[118];
         wxStaticText* descTextArray[118];
 
         for(int i = ELITE_SLAYER; i<= SMUSHED; i++){
 
-            nameTextArray[i] = new wxStaticText(panel,
+            descTextArray[i] = new wxStaticText(panel,
+                                                 wxID_ANY,
+                                                 _("-")+achievementList[i].GetDesc());
+
+            nameTextArray[i] = new ClickableText(panel,
                                                 wxID_ANY,
-                                                achievementList[i].GetName());
+                                                achievementList[i].GetName(),
+                                                descTextArray[i]);
 
             bool color = false;
             for(int j=0;j<parent->GetAchievements().size();j++)
@@ -40,9 +46,6 @@ AchievementFrame::AchievementFrame(MainFrame* parent, const wxString &title)
                                              wxFONTSTYLE_NORMAL,
                                              wxFONTWEIGHT_BOLD));
 
-            descTextArray[i] = new wxStaticText(panel,
-                                                wxID_ANY,
-                                                _("-")+achievementList[i].GetDesc());
             descTextArray[i]->SetForegroundColour(nameTextArray[i]->GetForegroundColour());
             descTextArray[i]->SetFont(wxFont(10,
                                              wxFONTFAMILY_SWISS,
